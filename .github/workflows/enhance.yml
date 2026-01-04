@@ -1,0 +1,139 @@
+name: Flyer Enhancement Pipeline
+
+on:
+  workflow_dispatch:
+    inputs:
+      input_image_path:
+        description: 'Path to input image (relative to repo root)'
+        required: false
+        default: 'assets/olobe-bukka/input/original.jpg'
+
+jobs:
+  enhance:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Check if input image exists
+        id: check_input
+        run: |
+          INPUT_PATH="${{ github.event.inputs.input_image_path || 'assets/olobe-bukka/input/original.jpg' }}"
+          if [ ! -f "$INPUT_PATH" ]; then
+            echo "::error::Input image not found at: $INPUT_PATH"
+            echo "Please ensure the source image is committed to the repository at the specified path."
+            exit 1
+          fi
+          echo "Input image found: $INPUT_PATH"
+          echo "input_path=$INPUT_PATH" >> $GITHUB_OUTPUT
+      
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y imagemagick ffmpeg libimage-exiftool-perl
+          
+          # Verify installations
+          convert -version
+          ffmpeg -version
+          exiftool -ver
+      
+      - name: Download and setup Real-ESRGAN
+        run: |
+          mkdir -p tools
+          cd tools
+          
+          # Download Real-ESRGAN ncnn-vulkan (Linux x64)
+          REALESRGAN_VERSION="v0.2.0"
+          REALESRGAN_DATE="20220424"
+          wget https://github.com/xinntao/Real-ESRGAN/releases/download/${REALESRGAN_VERSION}/realesrgan-ncnn-vulkan-${REALESRGAN_DATE}-ubuntu.zip \
+            -O realesrgan.zip
+          
+          unzip -q realesrgan.zip
+          
+          # Move binary to tools directory
+          mv realesrgan-ncnn-vulkan-${REALESRGAN_DATE}-ubuntu/realesrgan-ncnn-vulkan ./
+          chmod +x realesrgan-ncnn-vulkan
+          
+          # Clean up
+          rm -rf realesrgan.zip realesrgan-ncnn-vulkan-${REALESRGAN_DATE}-ubuntu
+          
+          # Verify
+          ./realesrgan-ncnn-vulkan -h || echo "Real-ESRGAN binary ready (GPU may not be available in CI)"
+      
+      - name: Run enhancement script
+        run: |
+          INPUT_PATH="${{ steps.check_input.outputs.input_path }}"
+          bash scripts/enhance.sh "$INPUT_PATH"
+      
+      - name: Verify outputs
+        run: |
+          echo "Checking for generated files..."
+          
+          CONSERVATIVE_DIR="assets/olobe-bukka/output/conservative"
+          MAXDETAIL_DIR="assets/olobe-bukka/output/maxdetail"
+          
+          # List all files
+          echo "Conservative variant files:"
+          ls -lh "$CONSERVATIVE_DIR/"
+          
+          echo "Max-Detail variant files:"
+          ls -lh "$MAXDETAIL_DIR/"
+          
+          # Verify all 6 required files exist
+          REQUIRED_FILES=(
+            "$CONSERVATIVE_DIR/conservative_original_clean.png"
+            "$CONSERVATIVE_DIR/conservative_x2.png"
+            "$CONSERVATIVE_DIR/conservative_x2_q95.jpg"
+            "$MAXDETAIL_DIR/maxdetail_original_clean.png"
+            "$MAXDETAIL_DIR/maxdetail_x2.png"
+            "$MAXDETAIL_DIR/maxdetail_x2_q95.jpg"
+          )
+          
+          MISSING=0
+          for file in "${REQUIRED_FILES[@]}"; do
+            if [ -f "$file" ]; then
+              echo "✓ $file"
+            else
+              echo "✗ Missing: $file"
+              MISSING=$((MISSING + 1))
+            fi
+          done
+          
+          if [ $MISSING -gt 0 ]; then
+            echo "::error::$MISSING required output file(s) missing"
+            exit 1
+          fi
+          
+          echo "All required files generated successfully!"
+      
+      - name: Upload Conservative variant outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: conservative-variant
+          path: |
+            assets/olobe-bukka/output/conservative/conservative_original_clean.png
+            assets/olobe-bukka/output/conservative/conservative_x2.png
+            assets/olobe-bukka/output/conservative/conservative_x2_q95.jpg
+          retention-days: 90
+      
+      - name: Upload Max-Detail variant outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: maxdetail-variant
+          path: |
+            assets/olobe-bukka/output/maxdetail/maxdetail_original_clean.png
+            assets/olobe-bukka/output/maxdetail/maxdetail_x2.png
+            assets/olobe-bukka/output/maxdetail/maxdetail_x2_q95.jpg
+          retention-days: 90
+      
+      - name: Upload all outputs (combined)
+        uses: actions/upload-artifact@v4
+        with:
+          name: all-enhanced-outputs
+          path: |
+            assets/olobe-bukka/output/
+          retention-days: 90
