@@ -240,6 +240,12 @@ Typical processing times (on modern hardware):
 
 Real-ESRGAN significantly increases processing time but provides superior quality compared to traditional interpolation.
 
+## Additional Documentation
+
+- **[TESTING.md](TESTING.md)** - Comprehensive testing guide, troubleshooting, and quality verification
+- **[PIPELINE_REFERENCE.md](PIPELINE_REFERENCE.md)** - Quick reference for all pipeline parameters and settings
+- **[CONTRIBUTING.md](CONTRIBUTING.md)** - Guide for adding and replacing the source image
+
 ## License
 
 This pipeline is part of the Desktop repository. Refer to the repository license for usage terms.
