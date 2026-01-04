@@ -169,9 +169,9 @@ $CONVERT_CMD "$INPUT_IMAGE" \
 # Step 2: Stronger debanding and noise reduction using FFmpeg
 echo "Step 2: Applying aggressive debanding..."
 if command -v ffmpeg &> /dev/null; then
-    # Use FFmpeg for superior debanding
+    # Use FFmpeg for superior debanding (spatial parameters only for still images)
     ffmpeg -i "$MAXDETAIL_DIR/maxdetail_original_clean.png" \
-        -vf "hqdn3d=1.5:1.5:6:6,unsharp=5:5:0.8:5:5:0.0" \
+        -vf "hqdn3d=1.5:1.5,unsharp=5:5:0.8:5:5:0.0" \
         -pix_fmt rgb24 \
         "$TEMP_DIR/maxdetail_debanded.png" \
         -y -loglevel error

@@ -141,7 +141,7 @@ Desktop/
 
 #### Max-Detail Variant
 1. PNG conversion (compression level 9)
-2. FFmpeg debanding (hqdn3d=1.5:1.5:6:6)
+2. FFmpeg debanding (hqdn3d=1.5:1.5)
 3. FFmpeg sharpening (unsharp=5:5:0.8:5:5:0.0)
 4. 2x upscale (Real-ESRGAN x4plus-anime or x4plus)
 5. Text enhancement (0x1.0+0.8+0.01)

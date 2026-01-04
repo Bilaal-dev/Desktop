@@ -45,17 +45,18 @@ jobs:
           
           # Download Real-ESRGAN ncnn-vulkan (Linux x64)
           REALESRGAN_VERSION="v0.2.0"
-          wget https://github.com/xinntao/Real-ESRGAN/releases/download/${REALESRGAN_VERSION}/realesrgan-ncnn-vulkan-20220424-ubuntu.zip \
+          REALESRGAN_DATE="20220424"
+          wget https://github.com/xinntao/Real-ESRGAN/releases/download/${REALESRGAN_VERSION}/realesrgan-ncnn-vulkan-${REALESRGAN_DATE}-ubuntu.zip \
             -O realesrgan.zip
           
           unzip -q realesrgan.zip
           
           # Move binary to tools directory
-          mv realesrgan-ncnn-vulkan-20220424-ubuntu/realesrgan-ncnn-vulkan ./
+          mv realesrgan-ncnn-vulkan-${REALESRGAN_DATE}-ubuntu/realesrgan-ncnn-vulkan ./
           chmod +x realesrgan-ncnn-vulkan
           
           # Clean up
-          rm -rf realesrgan.zip realesrgan-ncnn-vulkan-20220424-ubuntu
+          rm -rf realesrgan.zip realesrgan-ncnn-vulkan-${REALESRGAN_DATE}-ubuntu
           
           # Verify
           ./realesrgan-ncnn-vulkan -h || echo "Real-ESRGAN binary ready (GPU may not be available in CI)"

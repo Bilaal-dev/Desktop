@@ -19,7 +19,7 @@
 | Processing Step | Tool | Parameters | Purpose |
 |----------------|------|------------|---------|
 | Clean Original | ImageMagick | PNG compression level 9 | Remove artifacts, preserve quality |
-| Debanding | FFmpeg | hqdn3d=1.5:1.5:6:6 | Aggressive gradient smoothing |
+| Debanding | FFmpeg | hqdn3d=1.5:1.5 | Aggressive gradient smoothing |
 | Sharpen (deband) | FFmpeg | unsharp=5:5:0.8:5:5:0.0 | Edge enhancement |
 | Upscale | Real-ESRGAN | 2x, model: x4plus-anime | Maximum detail preservation |
 | Text Enhance | ImageMagick | unsharp 0x1.0+0.8+0.01 | Crisp text edges |
@@ -44,11 +44,10 @@ Format: `-unsharp {radius}x{sigma}+{amount}+{threshold}`
 
 Format: `hqdn3d={luma_spatial}:{chroma_spatial}:{luma_temporal}:{chroma_temporal}`
 
-Max-Detail: `1.5:1.5:6:6`
+Max-Detail: `1.5:1.5` (temporal parameters omitted for still images)
 - Luma spatial: 1.5 (denoise brightness)
 - Chroma spatial: 1.5 (denoise color)
-- Luma temporal: 6 (smooth across frames - not used for stills)
-- Chroma temporal: 6 (smooth across frames - not used for stills)
+- Temporal parameters: Not needed for still images (only used for video)
 
 ## Real-ESRGAN Models
 
@@ -167,9 +166,9 @@ assets/olobe-bukka/
 ### Reduce noise (Max-Detail)
 ```bash
 # In scripts/enhance.sh, change:
-hqdn3d=1.5:1.5:6:6
+hqdn3d=1.5:1.5
 # To:
-hqdn3d=2.0:2.0:6:6
+hqdn3d=2.0:2.0
 ```
 
 ### Change upscale ratio

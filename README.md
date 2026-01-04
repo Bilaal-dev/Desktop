@@ -152,7 +152,7 @@ Tested with:
 
 #### Max-Detail Variant
 1. **Clean Original**: PNG conversion with optimal compression
-2. **Aggressive Debanding**: FFmpeg hqdn3d filter (1.5:1.5:6:6)
+2. **Aggressive Debanding**: FFmpeg hqdn3d filter (1.5:1.5)
 3. **Strong Sharpening**: Unsharp mask (0x1.0 during debanding)
 4. **2x Upscale**: Real-ESRGAN (anime model preferred)
 5. **Text Enhancement**: Additional sharpening (0x1.0+0.8+0.01)
@@ -182,7 +182,7 @@ When ExifTool is available:
 
 | Parameter | Conservative | Max-Detail |
 |-----------|--------------|------------|
-| Noise Reduction | Minimal (blur 0x0.3) | Strong (hqdn3d 1.5:1.5:6:6) |
+| Noise Reduction | Minimal (blur 0x0.3) | Strong (hqdn3d 1.5:1.5) |
 | Sharpening (pre-upscale) | 0x0.5 | 0x1.0 |
 | Sharpening (post-upscale) | 0.5x0.5+0.5+0.008 | 1.0x1.0+1.0+0.05 |
 | Upscale Filter | Real-ESRGAN x4plus | Real-ESRGAN x4plus-anime |

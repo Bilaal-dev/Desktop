@@ -109,7 +109,7 @@ echo ""
 
 # Test 6: Validate workflow YAML
 echo "Test 6: Validating GitHub Actions workflow..."
-if python3 -c "import yaml; yaml.safe_load(open('.github/workflows/enhance.yml'))" 2>/dev/null; then
+if python3 -c "import yaml; exec('with open(\".github/workflows/enhance.yml\") as f:\\n    yaml.safe_load(f)')" 2>/dev/null; then
     echo -e "${GREEN}✓${NC} Workflow YAML is valid"
 else
     echo -e "${YELLOW}⚠${NC} Cannot validate YAML (PyYAML not installed)"
