@@ -1,8 +1,14 @@
-# Source Image Required
+# Source Image
 
-The enhancement pipeline is ready, but the source image needs to be placed here.
+## Current File
+A **test image** (`original.jpg`) has been created to validate the pipeline structure. This is a synthetic flyer-like image with:
+- Gradient background (purple to gold)
+- Text-like elements
+- Simulated compression artifacts
+- Dimensions: 800x1200 pixels
 
-## Expected File
+## Replacing with Actual Flyer
+To use the actual flyer image from the chat conversation:
 - **Filename**: `original.jpg` or `original.png`
 - **Location**: This directory (`assets/olobe-bukka/input/`)
 - **Source**: The flyer image from the chat conversation

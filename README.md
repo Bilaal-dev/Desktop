@@ -2,6 +2,8 @@
 
 This repository contains an automated image enhancement pipeline for processing flyers with two quality variants: **Conservative** and **Max-Detail**. The pipeline performs non-destructive enhancement including artifact removal, debanding, sharpening, and 2x upscaling while preserving all original content and metadata.
 
+> **Note**: A test image is currently included in `assets/olobe-bukka/input/original.jpg` for pipeline validation. Replace it with your actual flyer image to generate production-quality enhancements.
+
 ## Project Structure
 
 ```
