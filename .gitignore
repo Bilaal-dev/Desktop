@@ -1,0 +1,29 @@
+# Olobe Bukka Enhancement Pipeline - Git Ignore
+
+# Temporary processing directory
+assets/olobe-bukka/temp/
+
+# Large output files (optional - comment out if you want to commit outputs)
+# Uncomment the following lines to exclude output images from git:
+# assets/olobe-bukka/output/conservative/*.png
+# assets/olobe-bukka/output/conservative/*.jpg
+# assets/olobe-bukka/output/maxdetail/*.png
+# assets/olobe-bukka/output/maxdetail/*.jpg
+
+# Keep input images private (uncomment if source image should not be committed)
+# assets/olobe-bukka/input/original.jpg
+# assets/olobe-bukka/input/original.png
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.idea/
+*.swp
+*.swo
+*~
+
+# Log files
+*.log
+npm-debug.log*

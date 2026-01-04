@@ -1,0 +1,36 @@
+================================================================================
+                    PLACE SOURCE IMAGE HERE
+================================================================================
+
+Please place the Olobe Bukka flyer image in this directory as:
+
+    original.jpg
+    OR
+    original.png
+
+The source image should be the flyer provided in the issue/chat.
+
+Once the image is placed here, you can run the enhancement pipeline:
+
+    bash scripts/enhance.sh
+
+The script will process the image and create six output files:
+
+Conservative variant (gentle enhancement):
+  - conservative_original_clean.png
+  - conservative_x2.png  
+  - conservative_x2_q95.jpg
+
+Max-Detail variant (aggressive enhancement):
+  - maxdetail_original_clean.png
+  - maxdetail_x2.png
+  - maxdetail_x2_q95.jpg
+
+================================================================================
+
+For more information, see:
+  - README.md (main documentation)
+  - QUICKSTART.md (step-by-step guide)
+  - PIPELINE_REFERENCE.md (technical details)
+
+================================================================================
