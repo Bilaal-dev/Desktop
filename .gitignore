@@ -1,0 +1,23 @@
+# Temporary files
+assets/olobe-bukka/temp/
+*.tmp
+*.log
+
+# Tool binaries
+tools/realesrgan-ncnn-vulkan
+tools/*.zip
+tools/*.tar.gz
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ExifTool backup files
+*_original
